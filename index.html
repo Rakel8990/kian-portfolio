@@ -1,9 +1,236 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Test</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concrete Radar</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0D0D0D;
+      color: #FFFFFF;
+      text-align: center;
+    }
+
+    header {
+      padding: 40px 20px;
+    }
+
+    h1 {
+      color: #F5D55F;
+      font-size: 48px;
+    }
+
+    p {
+      color: #B3B3B3;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h2 {
+      margin-top: 50px;
+      color: #F5D55F;
+    }
+
+    /* GRID */
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    /* CARD */
+    .card {
+      background: #1A1A1A;
+      padding: 15px;
+      border-radius: 10px;
+      width: 220px;
+      transition: all 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border: 1px solid #F5D55F;
+      box-shadow: 0 0 15px #F5D55F33;
+    }
+
+    .name {
+      font-weight: bold;
+      color: #FFFFFF;
+    }
+
+    .username {
+      color: #F5D55F;
+      text-decoration: none;
+      display: block;
+      margin-top: 5px;
+    }
+
+    .username:hover {
+      text-decoration: underline;
+    }
+
+    /* COLLAPSIBLE */
+    details {
+      background: #1A1A1A;
+      margin: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #FFFFFF;
+    }
+
+    summary {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      outline: none;
+    }
+
+    /* TWEET */
+    .tweet {
+      max-width: 550px;
+      margin: 40px auto;
+    }
+
+    /* FLOATING BUTTON */
+    .floating-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #F5D55F;
+      color: #0D0D0D;
+      padding: 12px 18px;
+      border-radius: 30px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      transition: all 0.2s ease;
+    }
+
+    .floating-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 15px #F5D55F;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 30px;
+      border-top: 1px solid #222;
+    }
+
+    footer a {
+      color: #F5D55F;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>It works</h1>
+
+  <header>
+    <h1>Concrete Radar</h1>
+    <p>
+      Concrete Radar — just a little radar by kian, tracking the oddballs, the builders, and the ones making waves in Concrete. 
+      Here, we spotlight the builders, share weekly insights, and connect you to the core links you need—built by kian.
+    </p>
+  </header>
+
+  <!-- WHY CONCRETE COLLAPSIBLE -->
+  <details>
+    <summary>Why Concrete?</summary>
+    <p>
+      Concrete is building a robust DeFi infrastructure that lets you protect assets, earn yield, and amplify your social presence. 
+      Unlike traditional systems, Concrete integrates social engagement with financial rewards—no wallet required for most tasks, 
+      but deeper on-chain features unlock when you’re ready.
+    </p>
+  </details>
+
+  <!-- WEEKLY ARTICLES COLLAPSIBLE -->
+  <details>
+    <summary>Weekly Articles</summary>
+    <p>
+      Each week, we dive into a fresh topic. Follow the instructions Concrete posts—whether it's sharing insights, joining discussions, 
+      or exploring new DeFi concepts. Stay tuned for the latest challenge each Monday and make your mark by Saturday midnight!
+    </p>
+  </details>
+
+  <!-- WEEKLY SPOTLIGHT -->
+  <h2>🔥 Weekly Spotlight</h2>
+  <div class="tweet">
+    <blockquote class="twitter-tweet">
+      <a href="https://x.com/ConcreteXYZ/status/2034978686537961946"></a>
+    </blockquote>
+  </div>
+  <script async src="https://platform.twitter.com/widgets.js"></script>
+
+  <div class="container">
+
+    <h2>Core Team</h2>
+    <div class="grid">
+      <div class="card"><div class="name">CEO</div><a class="username" href="https://x.com/nic_builds" target="_blank">@nic_builds</a></div>
+      <div class="card"><div class="name">Marketing Lead</div><a class="username" href="https://x.com/crypttoji" target="_blank">@crypttoji</a></div>
+      <div class="card"><div class="name">Builder</div><a class="username" href="https://x.com/dill_sl" target="_blank">@dill_sl</a></div>
+      <div class="card"><div class="name">CM & Vibes</div><a class="username" href="https://x.com/d3crypt0r25" target="_blank">@d3crypt0r25</a></div>
+    </div>
+
+    <h2>MOAI Holders</h2>
+    <div class="grid">
+      <div class="card"><div class="name">Mongral</div><a class="username" href="https://x.com/mongralinweb3" target="_blank">@mongralinweb3</a></div>
+      <div class="card"><div class="name">Nomi</div><a class="username" href="https://x.com/Nomiie143" target="_blank">@Nomiie143</a></div>
+      <div class="card"><div class="name">Rage (❖,❖)</div><a class="username" href="https://x.com/rage_degen" target="_blank">@rage_degen</a></div>
+    </div>
+
+    <h2>Content Creators</h2>
+    <div class="grid">
+      <div class="card"><div class="name">kian</div><a class="username" href="https://x.com/rakel8990" target="_blank">@rakel8990</a></div>
+      <div class="card"><div class="name">Osita</div><a class="username" href="https://x.com/Osita__1" target="_blank">@Osita__1</a></div>
+      <div class="card"><div class="name">PA-MI</div><a class="username" href="https://x.com/urochimaru90" target="_blank">@urochimaru90</a></div>
+      <div class="card"><div class="name">Hailemariam.base.eth</div><a class="username" href="https://x.com/goodhabit300" target="_blank">@goodhabit300</a></div>
+      <div class="card"><div class="name">vinh nguyễn</div><a class="username" href="https://x.com/PhucvinhN1965" target="_blank">@PhucvinhN1965</a></div>
+      <div class="card"><div class="name">Grek</div><a class="username" href="https://x.com/cybergrek" target="_blank">@cybergrek</a></div>
+      <div class="card"><div class="name">Mugiwara</div><a class="username" href="https://x.com/Mugi_wara_95" target="_blank">@Mugi_wara_95</a></div>
+      <div class="card"><div class="name">Aℓᴇx</div><a class="username" href="https://x.com/alex___nba" target="_blank">@alex___nba</a></div>
+      <div class="card"><div class="name">mr_gee_tech</div><a class="username" href="https://x.com/mr_gee_ster" target="_blank">@mr_gee_ster</a></div>
+      <div class="card"><div class="name">I'm Abdulazeez</div><a class="username" href="https://x.com/imAbdulazeez0p" target="_blank">@imAbdulazeez0p</a></div>
+      <div class="card"><div class="name">MR. B</div><a class="username" href="https://x.com/Resilient_22" target="_blank">@Resilient_22</a></div>
+      <div class="card"><div class="name">MR MUI</div><a class="username" href="https://x.com/Sir_I_U" target="_blank">@Sir_I_U</a></div>
+      <div class="card"><div class="name">AFOLABI</div><a class="username" href="https://x.com/Afolabixyz" target="_blank">@Afolabixyz</a></div>
+      <div class="card"><div class="name">Shubham singh</div><a class="username" href="https://x.com/imshubhamsingh7" target="_blank">@imshubhamsingh7</a></div>
+      <div class="card"><div class="name">ᎠᎪᏒᏦᏦＮᎥᎶᎻＴ</div><a class="username" href="https://x.com/Darkknightz456" target="_blank">@Darkknightz456</a></div>
+      <div class="card"><div class="name">MIZZY</div><a class="username" href="https://x.com/mizzy_web3" target="_blank">@mizzy_web3</a></div>
+      <div class="card"><div class="name">JK Tech 🗿🟣🟢</div><a class="username" href="https://x.com/JKTech933" target="_blank">@JKTech933</a></div>
+      <div class="card"><div class="name">dev.ozzid 🗿🔶</div><a class="username" href="https://x.com/1ozzid" target="_blank">@1ozzid</a></div>
+      <div class="card"><div class="name">Hana</div><a class="username" href="https://x.com/hana51024" target="_blank">@hana51024</a></div>
+      <div class="card"><div class="name">montego💱</div><a class="username" href="https://x.com/HustleMontego" target="_blank">@HustleMontego</a></div>
+    </div>
+
+  </div>
+
+  <a href="https://x.com/rakel8990" target="_blank" class="floating-btn">
+    + Get Listed
+  </a>
+
+  <footer>
+    <p>Created by <a href="https://x.com/rakel8990" target="_blank">KIAN</a></p>
+    <p>Click to visit my profile on X.</p>
+  </footer>
+
 </body>
 </html>
