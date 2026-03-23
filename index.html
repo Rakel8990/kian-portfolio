@@ -4,248 +4,332 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Concrete Radar</title>
-
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0D0D0D;
-  color: #FFFFFF;
-  text-align: center;
-}
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
 
-header {
-  padding: 40px 20px;
-}
+    body {
+        font-family: 'Inter', system-ui, sans-serif;
+    }
+    .title-font {
+        font-family: 'Space Grotesk', sans-serif;
+    }
 
-h1 {
-  color: #F5D55F;
-  font-size: 48px;
-}
+    .card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 0 30px -5px rgb(245 213 95 / 0.5);
+    }
 
-p {
-  color: #B3B3B3;
-  max-width: 700px;
-  margin: auto;
-}
+    .accordion-header {
+        transition: all 0.3s ease;
+    }
+    .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .accordion.active .accordion-content {
+        max-height: 500px;
+    }
+    .chevron {
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .accordion.active .chevron {
+        transform: rotate(180deg);
+    }
 
-/* CONTAINER */
-.container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 20px;
-}
+    .glow-yellow {
+        text-shadow: 0 0 20px rgb(245 213 95);
+    }
 
-h2 {
-  margin-top: 50px;
-  color: #F5D55F;
-}
+    /* Floating Popup */
+    #get-listed-popup {
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    #get-listed-popup.show {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 
-/* GRID */
-.grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-}
-
-/* CARD */
-.card {
-  background: #1A1A1A;
-  padding: 15px;
-  border-radius: 10px;
-  width: 220px;
-  transition: 0.25s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  border: 1px solid #F5D55F;
-  box-shadow: 0 0 15px #F5D55F33;
-}
-
-.name {
-  font-weight: bold;
-}
-
-.username {
-  color: #F5D55F;
-  text-decoration: none;
-}
-
-.username:hover {
-  text-decoration: underline;
-}
-
-/* CUSTOM COLLAPSE */
-.collapse {
-  background: #1A1A1A;
-  margin: 20px;
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.collapse-header {
-  padding: 15px;
-  font-weight: bold;
-  border-bottom: 1px solid #222;
-}
-
-.collapse-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: 0.3s ease;
-  padding: 0 15px;
-}
-
-.collapse.active .collapse-content {
-  max-height: 300px;
-  padding: 15px;
-}
-
-/* TWEET */
-.tweet {
-  max-width: 550px;
-  margin: 40px auto;
-}
-
-/* FLOAT BUTTON */
-.floating-btn {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background: #F5D55F;
-  color: black;
-  padding: 12px 18px;
-  border-radius: 30px;
-  text-decoration: none;
-}
-
-/* POPUP */
-.popup {
-  display: none;
-  position: fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background: rgba(0,0,0,0.7);
-  justify-content:center;
-  align-items:center;
-}
-
-.popup-content {
-  background:#1A1A1A;
-  padding:25px;
-  border-radius:10px;
-  width:300px;
-  border:1px solid #F5D55F;
-}
-
-.socials img {
-  width:28px;
-  margin:10px;
-  filter: invert(84%);
-}
-
+    .tweet-container {
+        background: #111;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 10px 30px -15px rgb(245 213 95);
+    }
 </style>
 </head>
+<body class="bg-zinc-950 text-white min-h-screen pb-24">
 
-<body>
+<div class="max-w-6xl mx-auto px-6 py-12">
 
-<header>
-<h1>Concrete Radar</h1>
-<p>
-just a little radar by kian tracking who’s actually doing something in concrete. 
-builders, posters, movers — if you're active, you're visible.
-</p>
-</header>
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-12">
+        <div>
+            <h1 class="title-font text-7xl font-semibold tracking-tighter text-yellow-400 glow-yellow">CONCRETE</h1>
+            <h1 class="title-font text-7xl font-semibold tracking-tighter -mt-3">RADAR</h1>
+        </div>
+        <div class="text-right">
+            <p class="text-zinc-400 text-sm max-w-xs">built by <a href="https://x.com/rakel8990" target="_blank" class="text-yellow-400 hover:underline">@rakel8990</a></p>
+            <p class="text-amber-300/70 text-xs mt-1">who’s actually building in the vault</p>
+        </div>
+    </div>
 
-<!-- WHY CONCRETE -->
-<div class="collapse" onclick="toggleCollapse(this)">
-  <div class="collapse-header">Why Concrete?</div>
-  <div class="collapse-content">
-    Concrete is building real DeFi infrastructure — not just yield, but protection and sustainability.
-    Instead of users manually chasing opportunities, Concrete introduces vault systems and protection layers
-    where capital moves smarter. On top of that, they merge social activity with rewards — meaning your voice,
-    your content, and your presence actually matter.
-  </div>
+    <p class="text-2xl text-zinc-400 max-w-2xl mx-auto text-center mb-16">
+        tracking the real ones posting, building, and moving capital through vaults
+    </p>
+
+    <!-- WHAT IS CONCRETE ACCORDION -->
+    <div onclick="toggleAccordion(this)" class="accordion bg-zinc-900 border border-yellow-400/10 rounded-3xl mb-8 overflow-hidden cursor-pointer">
+        <div class="accordion-header flex items-center justify-between px-8 py-6 text-lg font-medium">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-vault text-yellow-400"></i>
+                <span>What is Concrete • Links • Earn</span>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="chevron w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+        <div class="accordion-content px-8 pb-8 text-zinc-300 leading-relaxed">
+            <p class="mb-6">
+                Concrete is building DeFi infra where capital moves through vaults instead of manual plays. 
+                It mixes protection, yield, and social activity — meaning posting actually matters.
+            </p>
+            <div class="flex flex-wrap gap-8 text-sm">
+                <div>
+                    <span class="block text-yellow-400 font-medium mb-1">Earn bags by:</span>
+                    <ul class="space-y-1">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-xs"></i> Posting on X</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-xs"></i> Joining Discord</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-xs"></i> Sharing ideas</li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="block text-yellow-400 font-medium mb-2">My referral code:</span>
+                    <div class="bg-zinc-950 border border-yellow-400/30 rounded-2xl px-6 py-3 font-mono text-xl tracking-widest text-yellow-300">1ad605d7</div>
+                </div>
+            </div>
+            <div class="mt-8 flex gap-6 text-yellow-400">
+                <a href="https://points.concrete.xyz/home" target="_blank" class="flex items-center gap-2 hover:text-yellow-300 transition-colors">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    Points Dashboard
+                </a>
+                <a href="https://discord.gg/concretexyz" target="_blank" class="flex items-center gap-2 hover:text-yellow-300 transition-colors">
+                    <i class="fa-brands fa-discord"></i>
+                    Discord
+                </a>
+                <a href="https://x.com/ConcreteXYZ" target="_blank" class="flex items-center gap-2 hover:text-yellow-300 transition-colors">
+                    <i class="fa-brands fa-x-twitter"></i>
+                    Twitter
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+        <!-- CORE TEAM -->
+        <div>
+            <h2 class="text-yellow-400 text-xl font-semibold mb-6 flex items-center gap-2">
+                <span class="w-3 h-px bg-yellow-400"></span>
+                CORE TEAM
+            </h2>
+            <div class="grid grid-cols-1 gap-4">
+                <a href="https://x.com/nic_builds" target="_blank" class="card group bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl p-6 flex items-center gap-4">
+                    <div class="w-11 h-11 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-2xl flex items-center justify-center text-black font-bold">NB</div>
+                    <div>
+                        <p class="font-medium group-hover:text-yellow-400 transition-colors">@nic_builds</p>
+                        <p class="text-xs text-zinc-500">Building the vaults</p>
+                    </div>
+                </a>
+                <a href="https://x.com/crypttoji" target="_blank" class="card group bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl p-6 flex items-center gap-4">
+                    <div class="w-11 h-11 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-2xl flex items-center justify-center text-black font-bold">CJ</div>
+                    <div>
+                        <p class="font-medium group-hover:text-yellow-400 transition-colors">@crypttoji</p>
+                        <p class="text-xs text-zinc-500">DeFi architect</p>
+                    </div>
+                </a>
+                <a href="https://x.com/dill_sl" target="_blank" class="card group bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl p-6 flex items-center gap-4">
+                    <div class="w-11 h-11 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-2xl flex items-center justify-center text-black font-bold">DS</div>
+                    <div>
+                        <p class="font-medium group-hover:text-yellow-400 transition-colors">@dill_sl</p>
+                        <p class="text-xs text-zinc-500">Strategy lead</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- MOAI -->
+        <div>
+            <h2 class="text-yellow-400 text-xl font-semibold mb-6 flex items-center gap-2">
+                <span class="w-3 h-px bg-yellow-400"></span>
+                MOAI
+            </h2>
+            <div class="grid grid-cols-1 gap-4">
+                <a href="https://x.com/mongralinweb3" target="_blank" class="card group bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl p-6 flex items-center gap-4">
+                    <div class="text-2xl">🗿</div>
+                    <div class="font-medium group-hover:text-yellow-400 transition-colors">@mongralinweb3</div>
+                </a>
+                <a href="https://x.com/Nomiie143" target="_blank" class="card group bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl p-6 flex items-center gap-4">
+                    <div class="text-2xl">🗿</div>
+                    <div class="font-medium group-hover:text-yellow-400 transition-colors">@Nomiie143</div>
+                </a>
+                <a href="https://x.com/rage_degen" target="_blank" class="card group bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl p-6 flex items-center gap-4">
+                    <div class="text-2xl">🗿</div>
+                    <div class="font-medium group-hover:text-yellow-400 transition-colors">@rage_degen</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- CONTENT CREATORS -->
+        <div>
+            <h2 class="text-yellow-400 text-xl font-semibold mb-6 flex items-center gap-2">
+                <span class="w-3 h-px bg-yellow-400"></span>
+                CONTENT CREATORS
+            </h2>
+            <div class="grid grid-cols-2 gap-3 text-sm">
+                <!-- All your original creators with nicer cards -->
+                <a href="https://x.com/rakel8990" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@rakel8990</a>
+                <a href="https://x.com/Osita__1" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@Osita__1</a>
+                <a href="https://x.com/urochimaru90" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@urochimaru90</a>
+                <a href="https://x.com/goodhabit300" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@goodhabit300</a>
+                <a href="https://x.com/PhucvinhN1965" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@PhucvinhN1965</a>
+                <a href="https://x.com/cybergrek" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@cybergrek</a>
+                <a href="https://x.com/Mugi_wara_95" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@Mugi_wara_95</a>
+                <a href="https://x.com/alex___nba" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@alex___nba</a>
+                <a href="https://x.com/mr_gee_ster" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@mr_gee_ster</a>
+                <a href="https://x.com/imAbdulazeez0p" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@imAbdulazeez0p</a>
+                <a href="https://x.com/Resilient_22" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@Resilient_22</a>
+                <a href="https://x.com/Sir_I_U" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@Sir_I_U</a>
+                <a href="https://x.com/Afolabixyz" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@Afolabixyz</a>
+                <a href="https://x.com/imshubhamsingh7" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@imshubhamsingh7</a>
+                <a href="https://x.com/Darkknightz456" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@Darkknightz456</a>
+                <a href="https://x.com/mizzy_web3" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@mizzy_web3</a>
+                <a href="https://x.com/JKTech933" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@JKTech933</a>
+                <a href="https://x.com/1ozzid" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@1ozzid</a>
+                <a href="https://x.com/hana51024" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@hana51024</a>
+                <a href="https://x.com/HustleMontego" target="_blank" class="card bg-zinc-900 border border-zinc-800 hover:border-yellow-400 rounded-2xl px-5 py-4 text-center transition-colors">@HustleMontego</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- WEEKLY ARTICLES ACCORDION -->
+    <div onclick="toggleAccordion(this)" class="accordion bg-zinc-900 border border-yellow-400/10 rounded-3xl mt-12 mb-12 overflow-hidden cursor-pointer">
+        <div class="accordion-header flex items-center justify-between px-8 py-6 text-lg font-medium">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-newspaper text-yellow-400"></i>
+                <span>Weekly Articles • New topic every Monday</span>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="chevron w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+        <div class="accordion-content px-8 pb-8 text-zinc-400">
+            <p class="italic">Write, post, and try not to be mid. New challenge drops every Monday. Winners get extra points + spotlight.</p>
+            <!-- You can add this week's topic here later -->
+        </div>
+    </div>
+
+    <!-- WEEKLY SPOTLIGHT -->
+    <div class="mb-12">
+        <h2 class="text-yellow-400 text-xl font-semibold mb-6 flex items-center gap-2">
+            <span class="w-3 h-px bg-yellow-400"></span>
+            WEEKLY SPOTLIGHT
+        </h2>
+        <div class="tweet-container">
+            <blockquote class="twitter-tweet" data-theme="dark">
+                <a href="https://x.com/ConcreteXYZ/status/2034978686537961946"></a>
+            </blockquote>
+        </div>
+    </div>
+
 </div>
 
-<!-- WEEKLY ARTICLES -->
-<div class="collapse" onclick="toggleCollapse(this)">
-  <div class="collapse-header">Weekly Articles</div>
-  <div class="collapse-content">
-    every week there's a new topic. you write, post, and try not to be boring.
-    this is where tasks will show up. if you're active, you win. if not, nobody remembers you.
-  </div>
+<!-- FLOATING BUTTON -->
+<button onclick="togglePopup()" 
+        class="fixed bottom-8 right-8 bg-yellow-400 hover:bg-amber-300 transition-all text-black font-semibold px-8 py-4 rounded-3xl flex items-center gap-3 shadow-2xl shadow-yellow-400/30 hover:shadow-yellow-400/50 text-lg z-50">
+    <i class="fa-solid fa-plus"></i>
+    GET LISTED
+</button>
+
+<!-- SMALL FLOATING POPUP (bottom-right) -->
+<div id="get-listed-popup" class="hidden fixed bottom-28 right-8 bg-zinc-900 border border-yellow-400/30 rounded-3xl w-80 shadow-2xl shadow-black/80 z-50 overflow-hidden">
+    <div class="px-6 pt-6 pb-4">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="text-yellow-400 font-medium">No ghosts allowed.</p>
+                <p class="text-zinc-400 text-sm mt-1 leading-tight">If you're active, posting, and actually doing something in Concrete — you might belong here.<br><span class="text-yellow-300">Prove it first.</span></p>
+            </div>
+            <button onclick="togglePopup()" class="text-zinc-500 hover:text-white text-2xl leading-none">×</button>
+        </div>
+    </div>
+
+    <!-- Social icons - smaller & cleaner -->
+    <div class="bg-black/40 px-6 py-5 flex justify-center gap-8 border-t border-yellow-400/10">
+        <a href="https://x.com/order_denied" target="_blank" class="group">
+            <i class="fa-brands fa-x-twitter text-3xl text-zinc-400 group-hover:text-white transition-colors"></i>
+        </a>
+        <a href="https://t.me/order_denied" target="_blank" class="group">
+            <i class="fa-brands fa-telegram text-3xl text-zinc-400 group-hover:text-white transition-colors"></i>
+        </a>
+    </div>
+
+    <div class="text-center py-4 text-[10px] text-zinc-500 border-t border-yellow-400/10">
+        DM me proof of activity → get listed
+    </div>
 </div>
 
-<div class="container">
-
-<h2>Core Team</h2>
-<div class="grid">
-<div class="card"><div class="name">CEO</div><a class="username" href="https://x.com/nic_builds" target="_blank">@nic_builds</a></div>
-<div class="card"><div class="name">Marketing</div><a class="username" href="https://x.com/crypttoji" target="_blank">@crypttoji</a></div>
-<div class="card"><div class="name">Builder</div><a class="username" href="https://x.com/dill_sl" target="_blank">@dill_sl</a></div>
-</div>
-
-<h2>MOAI Holders</h2>
-<div class="grid">
-<div class="card"><div class="name">Mongral</div><a class="username" href="https://x.com/mongralinweb3" target="_blank">@mongralinweb3</a></div>
-<div class="card"><div class="name">Nomi</div><a class="username" href="https://x.com/Nomiie143" target="_blank">@Nomiie143</a></div>
-<div class="card"><div class="name">Rage (❖,❖)</div><a class="username" href="https://x.com/rage_degen" target="_blank">@rage_degen</a></div>
-</div>
-
-<h2>Content Creators</h2>
-<div class="grid">
-<div class="card"><div class="name">kian</div><a class="username" href="https://x.com/rakel8990" target="_blank">@rakel8990</a></div>
-<!-- KEEP REST SAME AS BEFORE -->
-</div>
-
-<!-- WEEKLY SPOTLIGHT -->
-<h2>Weekly Spotlight</h2>
-<div class="tweet">
-<blockquote class="twitter-tweet">
-<a href="https://x.com/ConcreteXYZ/status/2034978686537961946"></a>
-</blockquote>
-</div>
-<script async src="https://platform.twitter.com/widgets.js"></script>
-
-</div>
-
-<!-- BUTTON -->
-<a href="#" class="floating-btn" onclick="openPopup()">+ Get Listed</a>
-
-<!-- POPUP -->
-<div id="popup" class="popup">
-<div class="popup-content">
-<p>
-no ghosts allowed. if you’re active, posting, and actually doing something in concrete, you might belong here. prove it first.
-</p>
-
-<a href="https://x.com/order_denied" target="_blank">
-<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg">
-</a>
-
-<a href="https://t.me/order_denied" target="_blank">
-<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg">
-</a>
-
-</div>
-</div>
-
-<footer>
-<p>Created by <a href="https://x.com/rakel8990" target="_blank">KIAN</a></p>
+<footer class="fixed bottom-0 left-0 right-0 bg-zinc-950 border-t border-zinc-800 py-4 text-center text-xs text-zinc-500">
+    Made with 🔥 by <a href="https://x.com/rakel8990" target="_blank" class="text-yellow-400 hover:underline">kian</a> • Concrete Radar v2
 </footer>
 
+<script src="https://platform.twitter.com/widgets.js" async></script>
 <script>
-function toggleCollapse(el){
-  el.classList.toggle("active");
-}
+    // Tailwind script run
+    function initTailwind() {
+        // No extra config needed
+    }
+    window.onload = initTailwind;
 
-function openPopup(){
-  document.getElementById("popup").style.display="flex";
-}
+    // Accordion toggle
+    function toggleAccordion(el) {
+        el.classList.toggle('active');
+    }
+
+    // Popup toggle (small bottom-right panel)
+    function togglePopup() {
+        const popup = document.getElementById('get-listed-popup');
+        popup.classList.toggle('hidden');
+        popup.classList.toggle('show');
+        
+        // Optional: close if clicking anywhere else (but keep simple)
+    }
+
+    // Close popup when clicking outside
+    document.addEventListener('click', function(e) {
+        const popup = document.getElementById('get-listed-popup');
+        const btn = document.querySelector('button[onclick="togglePopup()"]');
+        if (!popup.contains(e.target) && !btn.contains(e.target)) {
+            popup.classList.add('hidden');
+            popup.classList.remove('show');
+        }
+    });
+
+    // Keyboard escape support
+    document.addEventListener('keydown', function(e) {
+        if (e.key === "Escape") {
+            const popup = document.getElementById('get-listed-popup');
+            popup.classList.add('hidden');
+            popup.classList.remove('show');
+        }
+    });
 </script>
 
 </body>
